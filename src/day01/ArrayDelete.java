@@ -10,6 +10,7 @@ public class ArrayDelete {
         for (int i = deleteTargetIndex; i < arr.length - 1; i++) {
             arr[i] = arr[i+1];
         }
+        System.out.println("arr = " + Arrays.toString(arr));
 
         arr[2] = arr[3];
         arr[3] = arr[4];
