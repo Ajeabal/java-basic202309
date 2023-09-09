@@ -36,8 +36,7 @@ public class MemberRepository {
     }
 
 
-    void showChoosedMember(String choosedMemberEmail) {
-        Member member = findMemberByEmail(choosedMemberEmail);
+    void showChoosedMember(Member member) {
         System.out.printf("번호: %s\n", member.memberId);
         System.out.printf("이메일: %s\n", member.email);
         System.out.printf("비밀번호: %s\n", member.password);
@@ -48,11 +47,7 @@ public class MemberRepository {
     }
 
     int checkMemberIsTen() {
-        int index = 0;
-        for (Member member : memberList) {
-            index++;
-        }
-        return index;
+        return memberList.length;
     }
 
     /**
@@ -69,14 +64,13 @@ public class MemberRepository {
         return true;
     }
 
-    boolean addRemoveMembers(Member newRemoveMembers) {
+    void addRemoveMembers(Member newRemoveMembers) {
         Member[] temp = new Member[removeMembers.length + 1];
         for (int i = 0; i < removeMembers.length; i++) {
             temp[i] = removeMembers[i];
         }
         temp[temp.length - 1] = newRemoveMembers;
         removeMembers = temp;
-        return true;
     }
 
     /**
@@ -133,6 +127,7 @@ public class MemberRepository {
         }
         return index;
     }
+
     int indexOfRemoveMember(String email, String pw) {
         int index = 0;
         for (int i = 0; i < removeMembers.length; i++) {
@@ -158,14 +153,19 @@ public class MemberRepository {
     void deleteMember(String email, String pw) {
         addRemoveMembers(findMemberByEmail(email));
         int deleteTargetIndex = indexOf(email, pw);
-        Member[] temp = new Member[memberList.length - 1];
-        for (int j = deleteTargetIndex; j < memberList.length - 1; j++) {
-            memberList[j] = memberList[j + 1];
+        if (deleteTargetIndex != -1) {
+            Member[] temp = new Member[memberList.length - 1];
+            for (int i = deleteTargetIndex; i < memberList.length - 1; i++) {
+                memberList[i] = memberList[i + 1];
+            }
+            for (int j = 0; j < temp.length; j++) {
+                temp[j] = memberList[j];
+            }
+            memberList = temp;
+            System.out.println("# 회원 탈퇴 완료");
+        } else {
+            System.out.println("회원정보를 찾지 못했습니다.");
         }
-        for (int j = 0; j < temp.length; j++) {
-            temp[j] = memberList[j];
-        }
-        memberList = temp;
     }
 
     void showRemovedMembers() {
@@ -177,6 +177,10 @@ public class MemberRepository {
 
     void restoreMember(String email, String pw) {
         Member newMember = findMemberByEmailAndPassWord(email, pw);
+        if (newMember == null){
+            System.out.println("회원정보를 찾지 못했습니다.");
+            return;
+        }
         Member[] temp1 = new Member[memberList.length + 1];
         for (int i = 0; i < memberList.length; i++) {
             temp1[i] = memberList[i];
@@ -184,13 +188,18 @@ public class MemberRepository {
         temp1[temp1.length - 1] = newMember;
         memberList = temp1;
         int deleteTargetIndex = indexOfRemoveMember(email, pw);
-        Member[] temp2 = new Member[removeMembers.length - 1];
-        for (int j = deleteTargetIndex; j < removeMembers.length - 1; j++) {
-            removeMembers[j] = removeMembers[j + 1];
+        if (deleteTargetIndex != -1) {
+            Member[] temp2 = new Member[removeMembers.length - 1];
+            for (int j = deleteTargetIndex; j < removeMembers.length - 1; j++) {
+                removeMembers[j] = removeMembers[j + 1];
+            }
+            for (int j = 0; j < temp2.length; j++) {
+                temp2[j] = removeMembers[j];
+            }
+            removeMembers = temp2;
+            System.out.println("회원복구가 완료 되었습니다.");
+        } else {
+            System.out.println("회원정보를 찾지 못했습니다.");
         }
-        for (int j = 0; j < temp2.length; j++) {
-            temp2[j] = removeMembers[j];
-        }
-        removeMembers = temp2;
     }
 }
