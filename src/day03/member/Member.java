@@ -2,6 +2,9 @@ package day03.member;
 
 import java.time.LocalDate;
 
+import static day03.member.Gender.*;
+import static java.time.LocalDate.*;
+
 // 객체지향의 중요원칙 중 하나는 단일 책임 원칙
 // SRP: 하나의 클래스는 하나의 책임만 가진다.
 // 회원 설계도 (회원 1명에 대한 정보 관리 책임)
@@ -22,13 +25,13 @@ public class Member {
         this.memberName = memberName;
         this.gender = gender;
         this.age = age;
-        this.regDate = LocalDate.now();
+        this.regDate = now();
     }
 
     // 회원 정보를 문자열로 만들어서 반환하는 기능
 
     String inform() {
-        String covertGender = this.gender == Gender.MALE ? "남성" : "여성";
+        String covertGender = this.gender == MALE ? "남성" : "여성";
         return String.format("# %d번 | %s | %s | %s | %d세",
                 this.memberId, this.email, this.memberName, covertGender, this.age);
     }
