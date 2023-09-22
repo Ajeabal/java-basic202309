@@ -43,7 +43,6 @@ public class MemberRepository {
         System.out.printf("이름: %s\n", member.memberName);
         System.out.printf("성별: %s\n", member.gender);
         System.out.printf("나이: %s\n", member.age);
-
     }
 
     int checkMemberIsTen() {
