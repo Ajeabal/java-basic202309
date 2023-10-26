@@ -1,7 +1,9 @@
 package day08.collection.song;
 
+import day10.io.rw.FilePath;
 import util.Utility;
 
+import java.io.*;
 import java.util.*;
 
 public class ArtistRepository {
@@ -75,6 +77,30 @@ public class ArtistRepository {
                 songList.add(song);
                 addArtist(name, songList);
                 System.out.printf("# %s님이 신규 등록 되었습니다\n", name);
+            }
+        }
+        autoSave();
+    }
+
+    public void autoSave() {
+        File f = new File(FilePath.path + "/music");
+        if (!f.exists()) f.mkdir();
+        try (FileOutputStream fos = new FileOutputStream(FilePath.path+"/music/song.sav")) {
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(artistList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadFile() {
+        File f = new File(FilePath.path + "/music/song.sav");
+        if (f.exists()) {
+            try (FileInputStream fis = new FileInputStream(FilePath.path+"/music/song.sav")) {
+                ObjectInputStream ois = new ObjectInputStream(fis);
+                artistList = (Map<String, Artist>) ois.readObject();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }

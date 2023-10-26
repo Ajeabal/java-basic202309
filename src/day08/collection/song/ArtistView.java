@@ -30,6 +30,7 @@ public class ArtistView {
 
     static void viewProcess() {
         while (true) {
+            ar.loadFile();
             mainView(ar.enteredArtists());
             String menuNum = input(">>  ");
             switch (menuNum) {

@@ -30,7 +30,7 @@ public class Member {
 
     // 회원 정보를 문자열로 만들어서 반환하는 기능
 
-    String inform() {
+    public String inform() {
         String covertGender = this.gender == MALE ? "남성" : "여성";
         return String.format("# %d번 | %s | %s | %s | %d세",
                 this.memberId, this.email, this.memberName, covertGender, this.age);
